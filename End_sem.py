@@ -137,3 +137,34 @@ for i in range(len(data)):
 A=polynomial_fitting(X=X, Y=V, k=4)
 
 print(f"The Fitted set of Coefficient are {A}\n")
+
+
+"""
+Output:
+
+Question no 1
+
+Figure save as Question_1.png
+
+Solving Question 2
+Converged in 16 iterations
+The solution to the linear equation is [0.9999997530614102, 0.9999997892247294, 0.9999999100460266, 0.9999998509593768, 0.9999998727858708, 0.9999999457079743]
+
+Solving Question no 3
+The answer t0 question 3 is 2.5538872639694894
+
+Solving Question 4
+Center of mass is at x=1.5000007499996224meter
+
+Solving Question 5
+Maximum Height reached by the object is 4.933825808845075
+
+Figure save as Question_5.png
+
+Solving Question 6
+Plot saved as 'Question_6.png
+
+Solving question 7
+The Fitted set of Coefficient are [0.25462950721154565, -1.193759213809225, -0.4572554123829642, -0.8025653910658196, 0.013239427477395338]
+
+"""
