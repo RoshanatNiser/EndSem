@@ -12,19 +12,25 @@ print("Question no 1\n")
 L=[]
 R=[]
 T=[]
-for t in range(5000,10000,500):
+
+for t in range(0, 100001, 500):
     T.append(t)
-    D=pRNG(n=t)
-    L_t=[]
-    R_t=[]
-    for i in range(0,5000):
-        if D[-i] < 0.5:
-            L_t.append(1)
-        else:
-            R_t.append(1)
     
-    L.append(sum(L_t))
-    R.append(sum(R_t))
+    if t == 0:
+        L.append(5000)
+        R.append(0)
+    else:
+        D=pRNG(n=t)
+        L_t=0
+        
+        start_idx = max(0, t - 5000)
+        for i in range(start_idx, t):
+            if D[i] < 0.5:
+                L_t += 1
+        
+        R_t = 5000 - L_t
+        L.append(L_t)
+        R.append(R_t)
 
 # Plots for question 1
 plt.figure(figsize=(8,5))
@@ -35,7 +41,7 @@ plt.plot(T, R, marker='o', linestyle='-', label="No of particles in the right")
 plt.title("Question_1: No. of particles in left and right side of the wall", fontsize=18)
 plt.xlabel("Time", fontsize=14)
 plt.ylabel("No. of particles", fontsize=14)
-plt.legend(False)
+plt.legend(fontsize=12)
 plt.savefig('Question_1.png', dpi=300, bbox_inches="tight")
 plt.close()
 
@@ -61,13 +67,6 @@ print(f"The answer t0 question 3 is {x}\n")
 
 #Question 4
 print("Solving Question 4")
-""" We known centre of mass (c)= (integral xdm from x=0 to x=2)/ (integral dm from x=0 to x=2).
-so  c= (integral x^3dx from x=0 to x=2)/ (integral x^2 dx from x=0 to x=2) because dm= lamda(x)dx= x^2dx.
-
-Let A=(integral x^4dx from x=0 to x=2)
-    B=(integral x^2 dx from x=0 to x=2).
-    
-    This intergration is done using trapedoial method using N points"""
 
 N=1000
 A= trap_int(t=42,a=0,b=2,N=N)
@@ -82,27 +81,30 @@ print(f"Center of mass is at x={c}meter\n")
 #Question_5
 print("Solving Question 5")
 
-Y,V,T=RK4_2(k=5,a=0,b=12,t_i=0,t_f=1)
+Y,V,T=RK4_2(k=5,a=0,b=12,t_i=0,t_f=1,v0=10)
 print(f"Maximum Height reached by the object is {max(Y)}\n")
+
 # Plots for question 5
 plt.figure(figsize=(8,5))
 
-plt.plot(Y, V, marker='o', linestyle='-', label=None)
-
+plt.plot(Y, V, marker='o', linestyle='-')
 
 plt.title("Question_5: Variation of the velocity with the height", fontsize=18)
-plt.xlabel("Time", fontsize=14)
-plt.ylabel("Velocity", fontsize=14)
-plt.legend(fontsize=12)
+plt.xlabel("Height (m)", fontsize=14)
+plt.ylabel("Velocity (m/s)", fontsize=14)
+plt.grid(True, alpha=0.3)
 plt.savefig('Question_5.png', dpi=300, bbox_inches="tight")
 plt.close()
+
+print("Figure save as Question_5.png\n")
 
 #Question 6
 print("Solving Question 6")
 
-"""Given nx=20 and L=2 implies dx=1/20=0.005. And given nt=5000 and 0<=t<=4 implies dt=1/5000=0.0002"""
+dx = 2.0/20
+dt = 4.0/5000
 
-U,X=PDE_H(L=2,dx=0.05,dt=0.0005,T=1000)
+U,X=PDE_H(L=2,dx=dx,dt=dt,T=5000)
 
 # Plot temperature profiles at different time steps
 plt.figure(figsize=(10, 6))
@@ -112,15 +114,15 @@ for i in Time:
     if i < len(U):
         plt.plot(X, U[i], marker='o', label=f't = {i}', markersize=4)
 
-plt.title('Question 2: Heat Equation - Temperature Evolution')
+plt.title('Question 6: Heat Equation - Temperature Evolution')
 plt.xlabel('Position x (m)')
 plt.ylabel('Temperature T(x) (°C)')
-plt.legend(False)
+plt.legend(fontsize=10)
 plt.grid(True, alpha=0.3)
 plt.savefig("Question_6.png", dpi=300, bbox_inches='tight')
 plt.close()
 
-print("Plot saved as 'Assgn_15_Question_2.png\n")
+print("Plot saved as 'Question_6.png\n")
 
 #Question 7
 print("Solving question 7")
@@ -135,30 +137,3 @@ for i in range(len(data)):
 A=polynomial_fitting(X=X, Y=V, k=4)
 
 print(f"The Fitted set of Coefficient are {A}\n")
-
-
-"""
-Outputs:
-Question no 1
-
-Figure save as Question_1.png
-
-Solving Question 2
-Converged in 16 iterations
-The solution to the linear equation is [0.9999997530614102, 0.9999997892247294, 0.9999999100460266, 0.9999998509593768, 0.9999998727858708, 0.9999999457079743]
-
-Solving Question no 3
-The answer t0 question 3 is 2.5538872639694894
-
-Solving Question 4
-Center of mass is at x=1.5000007499996224meter
-
-Solving Question 5
-Maximum Height reached by the object is 0
-
-Solving Question 6
-Plot saved as 'Assgn_15_Question_2.png
-
-Solving question 7
-The Fitted set of Coefficient are [0.25462950721154565, -1.193759213809225, -0.4572554123829642, -0.8025653910658196, 0.013239427477395338]
-"""
